@@ -57,4 +57,30 @@ How you want to describe the interaction of multiple users in your application i
 		$mink->setDefaultSessionName($name);
     }
 
-Setting the default session name at the end of the @Given /^that "([^"]*)" is browsing the website$/ step allows you to reuse existing steps using the new session.
+Setting the default session name in your step definition allows you to reuse existing steps with multiple personas. This means you don't have to write persona-aware versions of common steps if you instead create a step that is essentially "switch users".
+
+.. code-block:: gherkin
+
+	Given I adopt the persona "Bob"
+	And I am on the homepage
+	Given I adopt the persona "Alice"
+	And I am on the homepage
+	And I chat "hello" to "bob"
+	Given I adopt the persona "Bob"
+	Then I should see a notification
+	And I should see "Alice"
+
+..code-block:: php
+
+		/**
+		 * @Given /^I adopt the persona "([^"]*)"$/
+		 */
+		public function changePersonaName($name)
+		{
+			$mink = $this->getMink();
+			if(!$mink->hasSession($name)) {
+				$newSession = clone $this->getSession();
+				$mink->registerSession($name, $newSession);
+			}
+			$mink->setDefaultSessionName($name);
+		}
