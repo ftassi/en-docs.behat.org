@@ -57,7 +57,10 @@ How you want to describe the interaction of multiple users in your application i
 		$mink->setDefaultSessionName($name);
     }
 
-Setting the default session name in your step definition allows you to reuse existing steps with multiple personas. This means you don't have to write persona-aware versions of common steps if you instead create a step that is essentially "switch users".
+Switching sessions
+------------------
+
+Setting the default session name in your step definition allows you to reuse existing steps with multiple sessions. This means you don't have to write session-aware versions of common steps if you instead create a step that is essentially "switch session".
 
 .. code-block:: gherkin
 
@@ -69,6 +72,10 @@ Setting the default session name in your step definition allows you to reuse exi
 	Given I adopt the persona "Bob"
 	Then I should see a notification
 	And I should see "Alice"
+
+.. note::
+
+    Writing gherkin features you should avoid using words like "session", preferring a more natural language. In this example we've preferred the terms "persona" which is more likely understandable by your stakeholders (non technical persons).
 
 ..code-block:: php
 
