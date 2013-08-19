@@ -51,7 +51,7 @@ How you want to describe the interaction of multiple users in your application i
     {
 		$mink = $this->getMink();
 		if(!$mink->hasSession($name)) {
-			$newSession = clone $this->getSession();
+			$newSession = clone $mink->getSession();
 		    $mink->registerSession($name, $newSession);
 		}
 		$mink->setDefaultSessionName($name);
